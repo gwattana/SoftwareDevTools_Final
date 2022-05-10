@@ -3,13 +3,16 @@ import express from "express";
 import router from "./src/route/router.js";
 import cors from "cors";
 import dotenv from "dotenv";
+import bodyParser from "body-parser"
 dotenv.config({ path: `.env` });
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 //set port
-const port = 8080;
+const port = 3001;
 app.use(cors());
 
-app.use("/test", router);
+app.use("/", router);
 
 mongoose
   .connect(process.env.DB_CONNECTION, {
@@ -27,6 +30,6 @@ mongoose
     process.exit(1);
   });
 
-// app.listen(port, () => {
-//   console.log(`Start at port ${port}.`);
-// });
+app.listen(port, () => {
+  console.log(`Start at port ${port}.`);
+});

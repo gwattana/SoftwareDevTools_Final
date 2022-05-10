@@ -1,209 +1,196 @@
-import Head from 'next/head'
+import Head from "next/head";
+import { Box, Text, Select, Input } from "@chakra-ui/react";
+import SearchCard from "../component/SearchCard";
+import React, { useState, useEffect, useCallback } from "react";
+import axios from "axios";
 
 export default function Home() {
+  const [search1, setSearch1] = useState("");
+  const [search2, setSearch2] = useState("");
+  const [search3, setSearch3] = useState("");
+  const [search4, setSearch4] = useState("");
+  const [search5, setSearch5] = useState("");
+  const [allData, setAllData] = useState([]);
+  const getInfo = async () => {
+    try {
+      const body ={
+        "title":search1,
+        "Date":search2,
+        "tag":search3,
+        "language":search4,
+      }
+      let all = await axios.post(
+        `http://localhost:3001/`,
+        body
+      );
+      setAllData(all.data)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(()=>{
+    getInfo()
+  }, [search1, search2, search3, search4, search5])
+
   return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className="logo" />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
+    <Box w="100%" h={"100%"} my={"1%"}>
+      <Box mx={"20%"}>
+        <Text fontSize={26}>ระบบรับสมัครนักศึกษาระดับปริญญาตรี</Text>
+        <Box w={"auto"}>
+          <Text fontSize={30} bg={"#FCF8E8"} w={"auto"} color={"#FF5F00"}>
+            สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง
+          </Text>
+        </Box>
+        <Box bg={"brown"} py={1} mt={3}>
+          <Text align={"center"} color={"snow"}>
+            ค้นหาหลักสูตรที่เปิด
+          </Text>
+          <Box mx={"2%"} mb={"2%"} bg={"snow"} h={"100%"} p={5}>
+            <Box display="flex" flexDirection="row">
+              <Box display="flex" flexDirection="column" w={"100%"}>
+                <Text color={"black"}>ค้นหา 'คณะ'</Text>
+                <Select
+                  placeholder="Select option"
+                  borderColor="black"
+                  color={"black"}
+                  w={"80%"}
+                  onChange={(e)=>{setSearch1(e.target.value)}}
+                >
+                  <option value="วิศวกรรมศาสตร์">วิศวกรรมศาสตร์</option>
+                  <option value="บริหารธุรกิจ">บริหารธุรกิจ</option>
+                  <option value="ทันตแพทยศาสตร์">ทันตแพทยศาสตร์</option>
+                  <option value="อุตสาหกรรมการบินนานาชาติ">อุตสาหกรรมการบินนานาชาติ</option>
+                  <option value="สถาปัตยกรรม ศิลปะและการออกแบบ">สถาปัตยกรรม ศิลปะและการออกแบบ</option>
+                  <option value="นวัตกรรมการผลิตขั้นสูง">นวัตกรรมการผลิตขั้นสูง</option>
+                </Select>
+              </Box>
+              <Box display="flex" flexDirection="column" w={"100%"}>
+                <Text color={"black"}>ค้นหา 'รอบรับสมัคร'</Text>
+                <Select
+                  placeholder="Select option"
+                  borderColor="black"
+                  color={"black"}
+                  w={"80%"}
+                  onChange={(e)=>{setSearch2(e.target.value)}}
+                >
+                  <option value=" ( 1 / 2565 ) รอบ - - Direct Admission 3 (International
+                    Program)">
+                    ( 1 / 2565 ) รอบ - - Direct Admission 3 (International
+                    Program)
+                  </option>
+                  <option value=" ( 1 / 2565 ) รอบ - - Direct Admission 2 (International
+                    Students Only)">
+                    ( 1 / 2565 ) รอบ - - Direct Admission 2 (International
+                    Students Only)
+                  </option>
+                  <option value="( 1 / 2565 ) รอบ - - Direct Admission 2 (International
+                    Program)">
+                    ( 1 / 2565 ) รอบ - - Direct Admission 2 (International
+                    Program)
+                  </option>
+                  <option value="( 1 / 2565 ) รอบ 2 - โครงการอาชีวะพรีเมี่ยม รอบ 2">
+                    ( 1 / 2565 ) รอบ 2 - โครงการอาชีวะพรีเมี่ยม รอบ 2
+                  </option>
+                </Select>
+              </Box>
+              <Box display="flex" flexDirection="column" w={"100%"}>
+                <Text color={"black"}>ค้นหา 'โครงการ'</Text>
+                <Select
+                  placeholder="Select option"
+                  borderColor="black"
+                  color={"black"}
+                  bg={"snow"}
+                  w={"80%"}
+                  onChange={(e)=>{setSearch3(e.target.value)}}
+                >
+                  <option value="โครงการ Direct Admission 3 (School of Engineering)">
+                    โครงการ Direct Admission 3 (School of Engineering)
+                  </option>
+                  <option value="โครงการ Direct Admission 3 (School of Engineering) Unified
+                    Bachelor's & Master's Degree Program (KMITL - CMKL)">
+                    โครงการ Direct Admission 3 (School of Engineering) Unified
+                    Bachelor's & Master's Degree Program (KMITL - CMKL)
+                  </option>
+                  <option value="โครงการ Direct Admission 3 (School of Engineering) Unified
+                    Bachelor's & Master's Degree Program (KMITL - AIT)">
+                    โครงการ Direct Admission 3 (School of Engineering) Unified
+                    Bachelor's & Master's Degree Program (KMITL - AIT)
+                  </option>
+                  <option value="โครงการ Direct Admission 3,Business Administration Global
+                    Entrepreneurship (KMITL Business School)">
+                    โครงการ Direct Admission 3,Business Administration Global
+                    Entrepreneurship (KMITL Business School)
+                  </option>
+                  <option value="โครงการ Direct Admission3 Doctor of Dental Surgery Program
+                    (International Program)">
+                    โครงการ Direct Admission3 Doctor of Dental Surgery Program
+                    (International Program)
+                  </option>
+                  <option value="โครงการ Direct Admission 3,Business Administration (KMITL
+                    Business School)">
+                    โครงการ Direct Admission 3,Business Administration (KMITL
+                    Business School)
+                  </option>
+                </Select>
+              </Box>
+            </Box>
+            <Box display="flex" flexDirection="row" mt={10}>
+              <Box display="flex" flexDirection="column" w={"100%"}>
+                <Text color={"black"}>ค้นหาหลักสูตร ไทย / นานาชาติ</Text>
+                <Select
+                  placeholder="Select option"
+                  borderColor="black"
+                  color={"black"}
+                  w={"27%"}
+                  onChange={(e)=>{setSearch4(e.target.value)}}
+                >
+                  <option value="หลักสูตรไทย">หลักสูตรไทย</option>
+                  <option value="หลักสูตรนานาชาติ">หลักสูตรนานาชาติ</option>
+                </Select>
+              </Box>
+            </Box>
+            <Box display="flex" flexDirection="row" mt={10}>
+              <Box display="flex" flexDirection="column" w={"100%"}>
+                <Text color={"black"}>
+                  คำค้นหาเพิ่มเติม (Enter เพื่อแยกคำ)
+                  [ระบบจะค้นจากชื่อคณะ,หลักสูตร]
+                </Text>
+                <Input
+                  placeholder="Basic usage"
+                  borderColor="black"
+                  color={"black"}
+                />
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+        <Box bg={"snow"} h={10}>
+          <Text color="black" pt={2}>
+            {`ผลการค้นหา : ${allData.length} รายการ`}
+          </Text>
+        </Box>
+        <Box bg={"#E7B2A5"} px={6} py={2}>
+          <Text fontWeight="bold" color="black" fontSize={20}>
+            กทม.
+          </Text>
+          <Text color={"red"}>หมายเหตุ</Text>
+          <Text color={"red"}>
+            กรณีเปลี่ยนสาขาวิชาที่สมัครหรืออันดับหรือโครงการที่สมัคร
+            ต้องสมัครใหม่ และชำระเงินค่าสมัครใหม่เท่านั้น โดยสถาบันฯ
+            จะถือว่าการสมัครครั้งสุดท้ายที่มีการชําระเงินค่าสมัครเรียบร้อยแล้วเป็นครั้งที่ต้องการเข้าสอบ
+            และครั้งที่สมัครก่อนหน้าจะถือเป็นโมฆะ
+            แม้ว่าจะชําระเงินค่าสมัครแล้วก็ตาม
+          </Text>
+          {
+            allData.map((data)=>{
+              return(
+                <SearchCard data={data}></SearchCard>
+              )
+            })
           }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+        </Box>
+      </Box>
+    </Box>
+  );
 }
